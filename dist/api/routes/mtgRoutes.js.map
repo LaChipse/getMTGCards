@@ -1,0 +1,1 @@
+{"version":3,"file":"mtgRoutes.js","sourceRoot":"","sources":["../../../src/api/routes/mtgRoutes.ts"],"names":[],"mappings":";;;;;AAAA,sDAA8B;AAC9B,iFAAyD;AACzD,mFAA2D;AAE3D,MAAM,MAAM,GAAG,iBAAO,CAAC,MAAM,EAAE,CAAC;AAEhC,MAAM,CAAC,GAAG,CAAC,4BAA4B,EAAE,uBAAa,CAAC,gBAAgB,CAAC,CAAC;AACzE,MAAM,CAAC,GAAG,CAAC,GAAG,EAAE,wBAAc,CAAC,IAAI,CAAC,CAAC;AAErC,kBAAe,MAAM,CAAC"}
