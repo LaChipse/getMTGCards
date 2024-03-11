@@ -1,10 +1,10 @@
-import mongoService from '../api/services/mongoService';
 import mtgService from '../api/services/mtgService';
 import generateYears from '../utils/generateYears';
 import excelService from '../api/services/excelService';
+import { format } from 'date-fns';
 
 const createMTGExcels = async (firstYear: string, options: Record<string, string>) => {
-    await mongoService.connect();
+    console.log(`Début: ${format(new Date(), 'HH:mm:SS')}`)
 
     const sets = await mtgService.getAllSets();
     let period: Array<number | null> = [];
@@ -16,9 +16,8 @@ const createMTGExcels = async (firstYear: string, options: Record<string, string
     }
 
     await excelService.saveCardsBySets(sets, period)
-
-    await mongoService.close();
-    process.exit(0);
+    
+    console.log(`Fin: ${format(new Date(), 'HH:mm:SS')}`)
 }
 
 export default createMTGExcels

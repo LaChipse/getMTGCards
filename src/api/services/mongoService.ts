@@ -1,9 +1,10 @@
+import 'dotenv/config'
 import mongoose  from 'mongoose';
 import cardsExports, { ICardExport } from '../bdd/cards_exports';
 
 const mongoService = {
-    connect: async () => {
-        await mongoose.connect('mongodb://localhost/local');
+    connect: async (db: string) => {
+        await mongoose.connect("mongodb://localhost/local");
     },
 
     close: async () => {

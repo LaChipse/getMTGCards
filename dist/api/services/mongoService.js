@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+require("dotenv/config");
 const mongoose_1 = __importDefault(require("mongoose"));
 const cards_exports_1 = __importDefault(require("../bdd/cards_exports"));
 const mongoService = {
-    connect: () => __awaiter(void 0, void 0, void 0, function* () {
-        yield mongoose_1.default.connect('mongodb://localhost/local');
+    connect: (db) => __awaiter(void 0, void 0, void 0, function* () {
+        yield mongoose_1.default.connect("mongodb://localhost/local");
     }),
     close: () => __awaiter(void 0, void 0, void 0, function* () {
         yield mongoose_1.default.connection.close();

@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import excelService from '../services/excelService';
 import mongoService from '../services/mongoService';
 import mtgService from '../services/mtgService';
@@ -7,7 +8,7 @@ import setFilteredByPeriod from '../../utils/setPeriod';
 
 const mtgController = {
     getExcelMTGCards: async (req: Request, res: Response) => {
-        mongoService.connect();
+        mongoService.connect(process.env.URL_API_LOCAL);
 
         const { firstDate, lastDate } = req.params;
 

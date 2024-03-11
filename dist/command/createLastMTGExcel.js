@@ -17,14 +17,13 @@ const mongoService_1 = __importDefault(require("../api/services/mongoService"));
 const mtgService_1 = __importDefault(require("../api/services/mtgService"));
 const excelService_1 = __importDefault(require("../api/services/excelService"));
 const createLastMTGExcels = () => __awaiter(void 0, void 0, void 0, function* () {
-    yield mongoService_1.default.connect();
+    console.log(`Début: ${(0, date_fns_1.format)(new Date(), 'HH:mm:SS')}`);
     const lastUpdate = yield mongoService_1.default.getLastSetSaved();
     const sets = yield mtgService_1.default.getAllSets();
     const lastSet = sets.filter((set) => ((0, date_fns_1.isBefore)((0, date_fns_1.toDate)(set.released_at), new Date())
         && (0, date_fns_1.isAfter)((0, date_fns_1.toDate)(set.released_at), (0, date_fns_1.toDate)(lastUpdate))));
     yield excelService_1.default.createLastSets(lastSet);
-    yield mongoService_1.default.close();
-    process.exit(0);
+    console.log(`Fin: ${(0, date_fns_1.format)(new Date(), 'HH:mm:SS')}`);
 });
 exports.default = createLastMTGExcels;
 //# sourceMappingURL=createLastMTGExcel.js.map

@@ -42,62 +42,8 @@ const excelService = {
                         _g = setsByDate_1_1.value;
                         _h = false;
                         const set = _g;
-                        const cardsBySet = yield mtgService_1.default.getListeCardsBySet(set.code);
-                        const file = `${directoryPath}/${set.name.replace(/[&\/\\#,+() $~%.'":*?<>{}]/g, '_')}.xlsx`;
-                        // Création d'un nouveau workbook
-                        let workbook = new exceljs_1.default.Workbook();
-                        // Ajout d'une nouvelle feuille avec un nom
-                        const worksheet = workbook.addWorksheet(set.name.replace(/[&\/\\#,+() $~%.'":*?<>{}]/g, '_'));
-                        // Ajout d'un en-tête de colonne
-                        worksheet.columns = [
-                            { header: 'Id', key: 'id', width: 45 },
-                            { header: 'Nom', key: 'name', width: 45 },
-                            { header: 'Date de sortie', key: 'releasedAt', width: 20 },
-                            { header: 'Coût de mana', key: 'manaCost', width: 20 },
-                            { header: 'Coût converti de mana', key: 'cmc', width: 10 },
-                            { header: 'Type', key: 'typeLine', width: 50 },
-                            { header: 'Text', key: 'text', width: 50 },
-                            { header: 'Attaque', key: 'power', width: 10 },
-                            { header: 'Endurance', key: 'toughness', width: 10 },
-                            { header: 'Mots clés', key: 'keywords', width: 35 },
-                            { header: 'Extension', key: 'set', width: 10 },
-                            { header: 'Nom de l\'extension', key: 'setName', width: 40 },
-                            { header: 'Type de l\'extension', key: 'setType', width: 25 },
-                            { header: 'Rareté', key: 'rarity', width: 15 },
-                            { header: 'Artiste', key: 'artist', width: 20 },
-                        ];
-                        cardsBySet.forEach(cards => {
-                            var _a;
-                            worksheet.addRow([
-                                (cards === null || cards === void 0 ? void 0 : cards.id) || '',
-                                (cards === null || cards === void 0 ? void 0 : cards.name) || '',
-                                (cards === null || cards === void 0 ? void 0 : cards.released_at) || '',
-                                ((_a = cards === null || cards === void 0 ? void 0 : cards.mana_cost) === null || _a === void 0 ? void 0 : _a.replace('B', 'N').replace('U', 'Ble').replace('W', 'Bla').replace('G', 'V')) || '',
-                                (cards === null || cards === void 0 ? void 0 : cards.cmc) || '',
-                                (cards === null || cards === void 0 ? void 0 : cards.type_line) || '',
-                                (cards === null || cards === void 0 ? void 0 : cards.oracle_text) || '',
-                                Number(cards === null || cards === void 0 ? void 0 : cards.power) || '',
-                                Number(cards === null || cards === void 0 ? void 0 : cards.toughness) || '',
-                                (cards === null || cards === void 0 ? void 0 : cards.keywords.join(', ')) || '',
-                                (cards === null || cards === void 0 ? void 0 : cards.set) || '',
-                                (cards === null || cards === void 0 ? void 0 : cards.set_name) || '',
-                                (cards === null || cards === void 0 ? void 0 : cards.set_type) || '',
-                                (cards === null || cards === void 0 ? void 0 : cards.rarity) || '',
-                                (cards === null || cards === void 0 ? void 0 : cards.artist) || '',
-                            ]);
-                        });
-                        // Sauvegarde du fichier Excel sur le disque
-                        yield workbook.xlsx.writeFile(file);
-                        console.log('Fichier Excel créé avec succès !');
-                        datasSaved.push({
-                            id: set.id,
-                            setName: set.name,
-                            code: set.code,
-                            cardCount: set.card_count,
-                            releaseDate: set.released_at,
-                            type: set.set_type,
-                            updateDate: (0, date_fns_1.format)(new Date(), 'dd/MM/yyyy - HH:mm:ss')
-                        });
+                        const result = yield excelService.createExcels(set, directoryPath);
+                        datasSaved.push(result);
                     }
                 }
                 catch (e_2_1) { e_2 = { error: e_2_1 }; }
@@ -132,62 +78,8 @@ const excelService = {
                 if (!fs_1.default.existsSync(directoryPath)) {
                     fs_1.default.mkdirSync(directoryPath, { recursive: true });
                 }
-                const cardsBySet = yield mtgService_1.default.getListeCardsBySet(set.code);
-                const file = `${directoryPath}/${set.name.replace(/[&\/\\#,+() $~%.'":*?<>{}]/g, '_')}.xlsx`;
-                // Création d'un nouveau workbook
-                let workbook = new exceljs_1.default.Workbook();
-                // Ajout d'une nouvelle feuille avec un nom
-                const worksheet = workbook.addWorksheet(set.name.replace(/[&\/\\#,+() $~%.'":*?<>{}]/g, '_'));
-                // Ajout d'un en-tête de colonne
-                worksheet.columns = [
-                    { header: 'Id', key: 'id', width: 45 },
-                    { header: 'Nom', key: 'name', width: 45 },
-                    { header: 'Date de sortie', key: 'releasedAt', width: 20 },
-                    { header: 'Coût de mana', key: 'manaCost', width: 20 },
-                    { header: 'Coût converti de mana', key: 'cmc', width: 10 },
-                    { header: 'Type', key: 'typeLine', width: 50 },
-                    { header: 'Text', key: 'text', width: 50 },
-                    { header: 'Attaque', key: 'power', width: 10 },
-                    { header: 'Endurance', key: 'toughness', width: 10 },
-                    { header: 'Mots clés', key: 'keywords', width: 35 },
-                    { header: 'Extension', key: 'set', width: 10 },
-                    { header: 'Nom de l\'extension', key: 'setName', width: 40 },
-                    { header: 'Type de l\'extension', key: 'setType', width: 25 },
-                    { header: 'Rareté', key: 'rarity', width: 15 },
-                    { header: 'Artiste', key: 'artist', width: 20 },
-                ];
-                cardsBySet.forEach(cards => {
-                    var _a;
-                    worksheet.addRow([
-                        (cards === null || cards === void 0 ? void 0 : cards.id) || '',
-                        (cards === null || cards === void 0 ? void 0 : cards.name) || '',
-                        (cards === null || cards === void 0 ? void 0 : cards.released_at) || '',
-                        ((_a = cards === null || cards === void 0 ? void 0 : cards.mana_cost) === null || _a === void 0 ? void 0 : _a.replace('B', 'N').replace('U', 'Ble').replace('W', 'Bla').replace('G', 'V')) || '',
-                        (cards === null || cards === void 0 ? void 0 : cards.cmc) || '',
-                        (cards === null || cards === void 0 ? void 0 : cards.type_line) || '',
-                        (cards === null || cards === void 0 ? void 0 : cards.oracle_text) || '',
-                        Number(cards === null || cards === void 0 ? void 0 : cards.power) || '',
-                        Number(cards === null || cards === void 0 ? void 0 : cards.toughness) || '',
-                        (cards === null || cards === void 0 ? void 0 : cards.keywords.join(', ')) || '',
-                        (cards === null || cards === void 0 ? void 0 : cards.set) || '',
-                        (cards === null || cards === void 0 ? void 0 : cards.set_name) || '',
-                        (cards === null || cards === void 0 ? void 0 : cards.set_type) || '',
-                        (cards === null || cards === void 0 ? void 0 : cards.rarity) || '',
-                        (cards === null || cards === void 0 ? void 0 : cards.artist) || '',
-                    ]);
-                });
-                // Sauvegarde du fichier Excel sur le disque
-                yield workbook.xlsx.writeFile(file);
-                console.log('Fichier Excel créé avec succès !');
-                datasSaved.push({
-                    id: set.id,
-                    setName: set.name,
-                    code: set.code,
-                    cardCount: set.card_count,
-                    releaseDate: set.released_at,
-                    type: set.set_type,
-                    updateDate: (0, date_fns_1.format)(new Date(), 'dd/MM/yyyy - HH:mm:ss')
-                });
+                const result = yield excelService.createExcels(set, directoryPath);
+                datasSaved.push(result);
             }
         }
         catch (e_3_1) { e_3 = { error: e_3_1 }; }
@@ -199,6 +91,64 @@ const excelService = {
         }
         yield mongoService_1.default.saveDate(datasSaved);
     }); },
+    createExcels: (set, path) => __awaiter(void 0, void 0, void 0, function* () {
+        const cardsBySet = yield mtgService_1.default.getListeCardsBySet(set.code);
+        const file = `${path}/${set.name.replace(/[&\/\\#,+() $~%.'":*?<>{}]/g, '_')}.xlsx`;
+        // Création d'un nouveau workbook
+        let workbook = new exceljs_1.default.Workbook();
+        // Ajout d'une nouvelle feuille avec un nom
+        const worksheet = workbook.addWorksheet(set.name.replace(/[&\/\\#,+() $~%.'":*?<>{}]/g, '_'));
+        // Ajout d'un en-tête de colonne
+        worksheet.columns = [
+            { header: 'Id', key: 'id', width: 45 },
+            { header: 'Nom', key: 'name', width: 45 },
+            { header: 'Date de sortie', key: 'releasedAt', width: 20 },
+            { header: 'Coût de mana', key: 'manaCost', width: 20 },
+            { header: 'Coût converti de mana', key: 'cmc', width: 10 },
+            { header: 'Type', key: 'typeLine', width: 50 },
+            { header: 'Text', key: 'text', width: 50 },
+            { header: 'Attaque', key: 'power', width: 10 },
+            { header: 'Endurance', key: 'toughness', width: 10 },
+            { header: 'Mots clés', key: 'keywords', width: 35 },
+            { header: 'Extension', key: 'set', width: 10 },
+            { header: 'Nom de l\'extension', key: 'setName', width: 40 },
+            { header: 'Type de l\'extension', key: 'setType', width: 25 },
+            { header: 'Rareté', key: 'rarity', width: 15 },
+            { header: 'Artiste', key: 'artist', width: 20 },
+        ];
+        cardsBySet.forEach(cards => {
+            var _a;
+            worksheet.addRow([
+                (cards === null || cards === void 0 ? void 0 : cards.id) || '',
+                (cards === null || cards === void 0 ? void 0 : cards.name) || '',
+                (cards === null || cards === void 0 ? void 0 : cards.released_at) || '',
+                ((_a = cards === null || cards === void 0 ? void 0 : cards.mana_cost) === null || _a === void 0 ? void 0 : _a.replace('B', 'N').replace('U', 'Ble').replace('W', 'Bla').replace('G', 'V')) || '',
+                (cards === null || cards === void 0 ? void 0 : cards.cmc) || '',
+                (cards === null || cards === void 0 ? void 0 : cards.type_line) || '',
+                (cards === null || cards === void 0 ? void 0 : cards.oracle_text) || '',
+                Number(cards === null || cards === void 0 ? void 0 : cards.power) || '',
+                Number(cards === null || cards === void 0 ? void 0 : cards.toughness) || '',
+                (cards === null || cards === void 0 ? void 0 : cards.keywords.join(', ')) || '',
+                (cards === null || cards === void 0 ? void 0 : cards.set) || '',
+                (cards === null || cards === void 0 ? void 0 : cards.set_name) || '',
+                (cards === null || cards === void 0 ? void 0 : cards.set_type) || '',
+                (cards === null || cards === void 0 ? void 0 : cards.rarity) || '',
+                (cards === null || cards === void 0 ? void 0 : cards.artist) || '',
+            ]);
+        });
+        // Sauvegarde du fichier Excel sur le disque
+        yield workbook.xlsx.writeFile(file);
+        console.log('Fichier Excel créé avec succès !');
+        return {
+            id: set.id,
+            setName: set.name,
+            code: set.code,
+            cardCount: set.card_count,
+            releaseDate: set.released_at,
+            type: set.set_type,
+            updateDate: (0, date_fns_1.format)(new Date(), 'dd/MM/yyyy - HH:mm:ss')
+        };
+    })
 };
 exports.default = excelService;
 //# sourceMappingURL=excelService.js.map

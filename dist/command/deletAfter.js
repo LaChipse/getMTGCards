@@ -12,13 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const date_fns_1 = require("date-fns");
 const mongoService_1 = __importDefault(require("../api/services/mongoService"));
 const deleteAfter = (date) => __awaiter(void 0, void 0, void 0, function* () {
-    yield mongoService_1.default.connect();
+    console.log(`Début: ${(0, date_fns_1.format)(new Date(), 'HH:mm:SS')}`);
     const deleted = yield mongoService_1.default.deleteAfter(date);
     console.log(`${deleted.deletedCount} éléments supprimés`);
-    yield mongoService_1.default.close();
-    process.exit(0);
+    console.log(`Fin: ${(0, date_fns_1.format)(new Date(), 'HH:mm:SS')}`);
 });
 exports.default = deleteAfter;
 //# sourceMappingURL=deletAfter.js.map

@@ -12,12 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoService_1 = __importDefault(require("../api/services/mongoService"));
 const mtgService_1 = __importDefault(require("../api/services/mtgService"));
 const generateYears_1 = __importDefault(require("../utils/generateYears"));
 const excelService_1 = __importDefault(require("../api/services/excelService"));
+const date_fns_1 = require("date-fns");
 const createMTGExcels = (firstYear, options) => __awaiter(void 0, void 0, void 0, function* () {
-    yield mongoService_1.default.connect();
+    console.log(`Début: ${(0, date_fns_1.format)(new Date(), 'HH:mm:SS')}`);
     const sets = yield mtgService_1.default.getAllSets();
     let period = [];
     if (options.endYear) {
@@ -27,8 +27,7 @@ const createMTGExcels = (firstYear, options) => __awaiter(void 0, void 0, void 0
         period = [Number(firstYear)];
     }
     yield excelService_1.default.saveCardsBySets(sets, period);
-    yield mongoService_1.default.close();
-    process.exit(0);
+    console.log(`Fin: ${(0, date_fns_1.format)(new Date(), 'HH:mm:SS')}`);
 });
 exports.default = createMTGExcels;
 //# sourceMappingURL=createMTGExcel.js.map
