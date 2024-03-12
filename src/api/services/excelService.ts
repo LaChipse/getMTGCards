@@ -22,7 +22,7 @@ const excelService = {
                 const result = await excelService.createExcels(set, directoryPath);
                 datasSaved.push(result)
             };
-            await mongoService.saveDate(datasSaved)
+            await mongoService.saveItemsExported(datasSaved)
         }
     },
 
@@ -41,7 +41,8 @@ const excelService = {
             const result = await excelService.createExcels(set, directoryPath);
             datasSaved.push(result)
         }
-        await mongoService.saveDate(datasSaved)
+        await mongoService.saveItemsExported(datasSaved)
+        return datasSaved.length
     },
 
     createExcels: async (set: Scry.Set, path: string) => {

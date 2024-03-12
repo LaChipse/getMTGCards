@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import mongoose  from 'mongoose';
 import cardsExports, { ICardExport } from '../bdd/cards_exports';
+import logs, { Log } from '../bdd/logs';
 
 const mongoService = {
     connect: async (db: string) => {
@@ -21,7 +22,7 @@ const mongoService = {
             }
         ]).limit(1).exec()
 
-        return result[0].releaseDate as string;
+        return result as Array<ICardExport>;
     },
 
     deleteAfter: async (date: string) => {
@@ -29,10 +30,20 @@ const mongoService = {
         return deleted;
     },
 
-    saveDate: async (datas: Array<ICardExport>) => {
+    saveItemsExported: async (datas: Array<ICardExport>) => {
         await cardsExports.create(datas)
         .then(doc => {
-            console.log(`Nouveau sets ajoutée (${datas.length}):`, doc);
+            console.log(`Nouveaux sets ajoutés (${datas.length}):`, doc);
+        })
+        .catch(err => {
+            console.error('Erreur lors de l\'ajout :', err);
+        });
+    },
+
+    saveLogs: async (data: Log) => {
+        await logs.create(data)
+        .then(doc => {
+            console.log(`Log ajouté (${data}):`, doc);
         })
         .catch(err => {
             console.error('Erreur lors de l\'ajout :', err);

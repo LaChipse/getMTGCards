@@ -54,7 +54,7 @@ const excelService = {
                     finally { if (e_2) throw e_2.error; }
                 }
                 ;
-                yield mongoService_1.default.saveDate(datasSaved);
+                yield mongoService_1.default.saveItemsExported(datasSaved);
             }
         }
         catch (e_1_1) { e_1 = { error: e_1_1 }; }
@@ -89,7 +89,8 @@ const excelService = {
             }
             finally { if (e_3) throw e_3.error; }
         }
-        yield mongoService_1.default.saveDate(datasSaved);
+        yield mongoService_1.default.saveItemsExported(datasSaved);
+        return datasSaved.length;
     }); },
     createExcels: (set, path) => __awaiter(void 0, void 0, void 0, function* () {
         const cardsBySet = yield mtgService_1.default.getListeCardsBySet(set.code);

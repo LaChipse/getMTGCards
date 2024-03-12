@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
 const mongoose_1 = __importDefault(require("mongoose"));
 const cards_exports_1 = __importDefault(require("../bdd/cards_exports"));
+const logs_1 = __importDefault(require("../bdd/logs"));
 const mongoService = {
     connect: (db) => __awaiter(void 0, void 0, void 0, function* () {
         yield mongoose_1.default.connect("mongodb://localhost/local");
@@ -31,16 +32,25 @@ const mongoService = {
                 $project: { releaseDate: 1 }
             }
         ]).limit(1).exec();
-        return result[0].releaseDate;
+        return result;
     }),
     deleteAfter: (date) => __awaiter(void 0, void 0, void 0, function* () {
         const deleted = yield cards_exports_1.default.deleteMany({ releaseDate: { "$gt": date } });
         return deleted;
     }),
-    saveDate: (datas) => __awaiter(void 0, void 0, void 0, function* () {
+    saveItemsExported: (datas) => __awaiter(void 0, void 0, void 0, function* () {
         yield cards_exports_1.default.create(datas)
             .then(doc => {
-            console.log(`Nouveau sets ajoutée (${datas.length}):`, doc);
+            console.log(`Nouveaux sets ajoutés (${datas.length}):`, doc);
+        })
+            .catch(err => {
+            console.error('Erreur lors de l\'ajout :', err);
+        });
+    }),
+    saveLogs: (data) => __awaiter(void 0, void 0, void 0, function* () {
+        yield logs_1.default.create(data)
+            .then(doc => {
+            console.log(`Log ajouté (${data}):`, doc);
         })
             .catch(err => {
             console.error('Erreur lors de l\'ajout :', err);

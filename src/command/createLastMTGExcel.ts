@@ -4,19 +4,30 @@ import mtgService from '../api/services/mtgService';
 import excelService from '../api/services/excelService';
 
 const createLastMTGExcels = async () => {
-    console.log(`Début: ${format(new Date(), 'HH:mm:SS')}`)
+    const startDate = format(new Date(), 'HH:mm:SS')
+    console.log(`Début: ${startDate}`);
 
-    const lastUpdate = await mongoService.getLastSetSaved();
+    const result = await mongoService.getLastSetSaved();
     const sets = await mtgService.getAllSets();
+
+    let lastUpdate = result[0]?.releaseDate || '1972-12-31';
 
     const lastSet = sets.filter((set) => (
         isBefore(toDate(set.released_at), new Date())
         && isAfter(toDate(set.released_at), toDate(lastUpdate))
     ))
 
-    await excelService.createLastSets(lastSet)
+    const itemsAdd = await excelService.createLastSets(lastSet)
     
-    console.log(`Fin: ${format(new Date(), 'HH:mm:SS')}`)
+    const endDate = format(new Date(), 'HH:mm:SS')
+    console.log(`Fin: ${endDate}`)
+
+    await mongoService.saveLogs({
+        startDate,
+        endDate,
+        itemsAdd,
+        programName: 'MTG getLast',
+    })
 }
 
 export default createLastMTGExcels;
