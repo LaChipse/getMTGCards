@@ -1,10 +1,10 @@
 import { format, isAfter, isBefore, toDate } from 'date-fns';
-import mongoService from '../api/services/mongoService';
-import mtgService from '../api/services/mtgService';
-import excelService from '../api/services/excelService';
+import mongoService from '../services/mongoService';
+import mtgService from '../services/mtgService';
+import excelService from '../services/excelService';
 
 const createLastMTGExcels = async () => {
-    const startDate = format(new Date(), 'HH:mm:SS')
+    const startDate = format(new Date(), 'HH:mm:ss')
     console.log(`Début: ${startDate}`);
 
     const result = await mongoService.getLastSetSaved();
@@ -19,7 +19,7 @@ const createLastMTGExcels = async () => {
 
     const itemsAdd = await excelService.createLastSets(lastSet)
     
-    const endDate = format(new Date(), 'HH:mm:SS')
+    const endDate = format(new Date(), 'HH:mm:ss')
     console.log(`Fin: ${endDate}`)
 
     await mongoService.saveLogs({

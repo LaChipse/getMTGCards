@@ -1,6 +1,6 @@
-import mtgService from '../api/services/mtgService';
+import mtgService from '../services/mtgService';
 import generateYears from '../utils/generateYears';
-import excelService from '../api/services/excelService';
+import excelService from '../services/excelService';
 import { format } from 'date-fns';
 
 const createMTGExcels = async (firstYear: string, options: Record<string, string>) => {

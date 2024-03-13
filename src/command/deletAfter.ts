@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import mongoService from '../api/services/mongoService';
+import mongoService from '../services/mongoService';
 
 const deleteAfter = async (date: string) => {
     console.log(`Début: ${format(new Date(), 'HH:mm:SS')}`)

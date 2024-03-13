@@ -5,7 +5,7 @@ import mtgService from "./mtgService";
 import mongoService from "./mongoService";
 import fs from 'fs';
 import { ICardExport } from "../bdd/cards_exports";
-import setFilteredByPeriod from "../../utils/setPeriod";
+import setFilteredByPeriod from "../utils/setPeriod";
 
 const excelService = {
     saveCardsBySets: async (sets: Array<Scry.Set>, dates: Array<number>) => {

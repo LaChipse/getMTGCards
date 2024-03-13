@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 
-import 'dotenv/config'
 import { Command } from 'commander';
 import createMTGExcels from './createMTGExcel';
 import createLastMTGExcels from './createLastMTGExcel';
 import deleteAfter from './deletAfter';
-import mongoService from '../api/services/mongoService';
+import mongoService from '../services/mongoService';
 
 const program = new Command();
 
@@ -20,7 +19,7 @@ program
     .argument('<firstYear>', 'année de début')
     .option('-eY, --endYear <endYear>', 'ajoute une année de fin')
     .action(async (firstYear: string, options: Record<string, string>) => {
-        await mongoService.connect(process.env.URL_API_LOCAL);
+        await mongoService.connect();
         await createMTGExcels(firstYear, options);
         await mongoService.close();
         process.exit(0);
@@ -30,7 +29,7 @@ program
     .command('getLast')
     .description('Création excel dernier set mtg.')
     .action(async () => {
-        await mongoService.connect(process.env.URL_API_LOCAL);
+        await mongoService.connect();
         await createLastMTGExcels();
         await mongoService.close();
         process.exit(0);
@@ -41,7 +40,7 @@ program
     .description('Supprime données aprés date.')
     .argument('<date>', 'date')
     .action(async (date: string) => {
-        await mongoService.connect(process.env.URL_API_LOCAL);
+        await mongoService.connect();
         await deleteAfter(date);
         await mongoService.close();
         process.exit(0);
