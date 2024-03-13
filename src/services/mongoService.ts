@@ -5,7 +5,7 @@ import config from '../config';
 
 const mongoService = {
     connect: async () => {
-        await mongoose.connect("mongodb://localhost/local");
+        await mongoose.connect(config.mongo.db);
     },
 
     close: async () => {

@@ -15,9 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const cards_exports_1 = __importDefault(require("../bdd/cards_exports"));
 const logs_1 = __importDefault(require("../bdd/logs"));
+const config_1 = __importDefault(require("../config"));
 const mongoService = {
     connect: () => __awaiter(void 0, void 0, void 0, function* () {
-        yield mongoose_1.default.connect("mongodb://localhost/local");
+        yield mongoose_1.default.connect(config_1.default.mongo.db);
     }),
     close: () => __awaiter(void 0, void 0, void 0, function* () {
         yield mongoose_1.default.connection.close();
