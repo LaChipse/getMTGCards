@@ -13,12 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const date_fns_1 = require("date-fns");
-const mongoService_1 = __importDefault(require("../api/services/mongoService"));
-const mtgService_1 = __importDefault(require("../api/services/mtgService"));
-const excelService_1 = __importDefault(require("../api/services/excelService"));
+const mongoService_1 = __importDefault(require("../services/mongoService"));
+const mtgService_1 = __importDefault(require("../services/mtgService"));
+const excelService_1 = __importDefault(require("../services/excelService"));
 const createLastMTGExcels = () => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    const startDate = (0, date_fns_1.format)(new Date(), 'HH:mm:SS');
+    const startDate = (0, date_fns_1.format)(new Date(), 'HH:mm:ss');
     console.log(`Début: ${startDate}`);
     const result = yield mongoService_1.default.getLastSetSaved();
     const sets = yield mtgService_1.default.getAllSets();
@@ -26,7 +26,7 @@ const createLastMTGExcels = () => __awaiter(void 0, void 0, void 0, function* ()
     const lastSet = sets.filter((set) => ((0, date_fns_1.isBefore)((0, date_fns_1.toDate)(set.released_at), new Date())
         && (0, date_fns_1.isAfter)((0, date_fns_1.toDate)(set.released_at), (0, date_fns_1.toDate)(lastUpdate))));
     const itemsAdd = yield excelService_1.default.createLastSets(lastSet);
-    const endDate = (0, date_fns_1.format)(new Date(), 'HH:mm:SS');
+    const endDate = (0, date_fns_1.format)(new Date(), 'HH:mm:ss');
     console.log(`Fin: ${endDate}`);
     yield mongoService_1.default.saveLogs({
         startDate,
