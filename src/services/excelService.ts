@@ -70,7 +70,7 @@ const excelService = {
             { header: 'Nom de l\'extension', key: 'setName', width: 40 },
             { header: 'Type de l\'extension', key: 'setType', width: 25 },
             { header: 'Rareté', key: 'rarity', width: 15 },
-            { header: 'Artiste', key: 'artist', width: 20 },
+            { header: 'Artiste', key: 'artist', width: 20 }
         ];
 
         cardsBySet.forEach(cards => {
@@ -89,7 +89,7 @@ const excelService = {
                 cards?.set_name || '',
                 cards?.set_type || '',
                 cards?.rarity || '',
-                cards?.artist || '',
+                cards?.artist || ''
             ]);
         });
 
